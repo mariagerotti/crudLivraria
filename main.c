@@ -7,10 +7,10 @@ int main () {
 
     printf("Olá! Digite a opção que deseja: ");
 
-    printf("1 - Inserir novo registro");
-    printf("2 - Remover registro existente");
-    printf("3 - Exibir todos os livros");
-    printf("4 - Consultar um livro específico");
+    printf("1 - Inserir novo registro /n");
+    printf("2 - Remover registro existente /n");
+    printf("3 - Exibir todos os livros /n");
+    printf("4 - Consultar um livro específico /n");
     printf("5 - Sair");
 
     scanf("%d", &option);
