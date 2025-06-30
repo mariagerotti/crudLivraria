@@ -17,6 +17,7 @@ int main () {
 
     if (option > 5 || option < 1) {
         printf("Ops! Escolha uma opção válida do menu");
+        return;
     }
 
     switch (option) {
