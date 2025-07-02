@@ -18,20 +18,43 @@ typedef struct{
         char editora[20];
     } book; //DEFINE A STRUCT DE DADOS COMO O TIPO book
 
+void read_file(book **lista, int *count){
+    FILE *file = fopen("C:\\Users\\JP\\EX-JOÃO\\Registro\\livros.txt", "r"); //CRIA OU ABRE O ARQUIVO LIVROS.TXT PARA LEITURA
+    if (file == NULL){
+        return;
+    }
+    fscanf(" %d", *count);
+    *lista = realloc(*lista, (*count) * sizeof(book));
+    for (int i = 0; i < *count; i++){
+        fscanf(" %[^\n]", (*lista)[i].title);
+        fscanf(" %[^\n]", (*lista)[i].autor.autNAME);
+        fscanf(" %[^\n]", (*lista)[i].autor.country);
+        fscanf(" %[^\n]", (*lista)[i].editora);
+        fscanf(" %[^\n]", (*lista)[i].genre);
+        fscanf(" %d", &(*lista)[i].pCOUNT);
+        fscanf(" %d", &(*lista)[i].data.dia);
+        fscanf(" %d", &(*lista)[i].data.mes);
+        fscanf(" %d", &(*lista)[i].data.ano); 
+    }
+    fclose(file);
+}
+
 void insert_register(book **lista, int *count){
+    char bufferT[30];
+    printf("\nTítulo:\n"); //RECEBE DADOS DO USUÁRIO SOBRE O LIVRO
+    scanf(" %[^\n]", bufferT);
+    for (int i = 0; i < *count;i++){
+        if (strcasecmp((*lista)[i].title, bufferT) != 0){
+            prinf("\nTÍTULO JÁ REGISTRADO!\n");
+            return;
+        }
+    }
     *lista = realloc(*lista, (*count + 1) * sizeof(book));
     if (*lista == NULL){
         printf("FALHA NA ALOCAÇÃO DE MEMÓRIA!");
         exit(1);
     }
-    printf("\nTítulo:\n"); //RECEBE DADOS DO USUÁRIO SOBRE O LIVRO
-    scanf(" %[^\n]", (*lista)[*count].title);
-    for (int i = 0; i < *count;i++){
-        if (strcasecmp((*lista)[i].title, (*lista)[*count].title) != 0){
-            prinf("\nTÍTULO JÁ REGISTRADO!\n");
-            return;
-        }
-    }
+    strcpy((*lista)[*count].title, bufferT);
     printf("\nAutor:\n");
     scanf(" %[^\n]", (*lista)[*count].autor.autNAME);
     printf("\nPaís:\n");
@@ -54,18 +77,27 @@ void insert_register(book **lista, int *count){
         printf("\n ERRO AO ABRIR O ARQUIVO DE REGISTRO\n");
         return;
     }
-    fprintf(file, "%s;%s;%s;%s;%s;%d;%d/%d/%d\n", (*lista)[*count].title, (*lista)[*count].autor.autNAME, (*lista)[*count].autor.country, (*lista)[*count].editora, (*lista)[*count].genre, (*lista)[*count].pCOUNT, (*lista)[*count].data.dia, (*lista)[*count].data.mes, (*lista)[*count].data.ano);
-    //lINHA ACIMA REGISTRA AS INFORMAÇÕES NO ARQUIVO LIVROS.TXT
+    if (*count == 0){
+        fprintf(file, "%d\n%s\n%s\n%s\n%s\n%s\n%d\n%d %d %d\n", ++(*count), (*lista)[*count].title, (*lista)[*count].autor.autNAME, (*lista)[*count].autor.country, (*lista)[*count].editora, (*lista)[*count].genre, (*lista)[*count].pCOUNT, (*lista)[*count].data.dia, (*lista)[*count].data.mes, (*lista)[*count].data.ano);
+    //LINHA ACIMA REGISTRA AS INFORMAÇÕES NO ARQUIVO LIVROS.TXT
+    } else{
+         fprintf(file, "%s\n%s\n%s\n%s\n%s\n%d\n%d %d %d\n", (*lista)[*count].title, (*lista)[*count].autor.autNAME, (*lista)[*count].autor.country, (*lista)[*count].editora, (*lista)[*count].genre, (*lista)[*count].pCOUNT, (*lista)[*count].data.dia, (*lista)[*count].data.mes, (*lista)[*count].data.ano);
+    //LINHA ACIMA REGISTRA AS INFORMAÇÕES NO ARQUIVO LIVROS.TXT
+        (*count)++;
+    }
     fclose(file);
-
-    (*count)++;
 
     printf("\nRegistro realizado com sucesso!\n");
 }
-
+ 
 int main () {
     int option;
-    int main = 0;
+    int counter = 0; //NÚMERO DE LIVROS REGISTRADOS
+    int menu = 1;
+    book *plivraria; //PONTEIRO USADO COMO VETOR DE STRUCTS DO TIPO book
+    plivraria = NULL;
+    read_file(plivraria, &counter);
+
 
     printf("Olá! Digite a opção que deseja: ");
 
@@ -78,14 +110,16 @@ int main () {
     scanf("%d", &option);
 
     if (option > 5 || option < 1) {
-        printf("Ops! Escolha uma opção válida do menu");
-        return;
+        while (option > 5 || option < 1){ //MANTÉM O LOOP ENQUANTO O USUÁRIO NÃO ESCOLHE OPÇÃO VÁLIDA
+            printf("Ops! Escolha uma opção válida do menu:\n");
+            scanf("%d", &option);
+        }
     }
 
-    while (main){
+    while (menu){
         switch (option) {
             case 1: 
-
+                insert_register(plivraria, &counter);
                 break;
             case 2:
 
@@ -97,7 +131,7 @@ int main () {
 
                 break;
             case 5:
-                main = 0;
+                menu = 0; //INVALIDA A CHECAGEM DO LOOP
                 break;
         }
     }
