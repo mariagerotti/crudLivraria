@@ -22,6 +22,26 @@ typedef struct{
         char editora[20];
     } book; //DEFINE A STRUCT DE DADOS COMO O TIPO book
 
+// Valida a a data de publicação do livro, para serem apenas valores válidos para o formato [dd-mm-yyyy]
+int read_valid_number(const char *msg, int min, int max) {
+    int value;
+    int success;
+
+    do {
+        printf("\n%s", msg);
+        success = scanf("%d", &value);
+        printf("\n");
+
+        if (success != 1 || value < min || value > max) {
+            printf("Entrada inválida! Digite um número entre %d e %d.\n", min, max);
+            while (getchar() != '\n');
+        }
+
+    } while (success != 1 || value < min || value > max);
+
+    return value;
+}
+
 char correct_case(char c){ //TEORICAMENTE, DEVERIA CONVERTER CARACTÉRES ESPECIAIS EM CARACTÉRES SIMPLES E MINÚSCULOS, MAS NÃO FUNCIONA DIREITO. ESTOU DEIXANDO SIMPLESMENTE PARA MOSTRAR QUE TENTAMOS.
     unsigned char ac = (unsigned char)c;
 
@@ -103,14 +123,18 @@ void insert_register(book **lista, int *count){
     scanf(" %[^\n]", (*lista)[*count].editora);
     printf("\nGênero:\n");
     scanf(" %[^\n]", (*lista)[*count].genre);
-    printf("\nNúmero de Páginas:\n");
-    scanf("%d", &(*lista)[*count].pCOUNT);
-    printf("\nDia da Publicação:\n");
-    scanf("%d", &(*lista)[*count].data.dia);
-    printf("\nMês da Publicação:\n");
-    scanf("%d", &(*lista)[*count].data.mes);
-    printf("\nAno da Publicação:\n");
-    scanf("%d", &(*lista)[*count].data.ano);
+    (*lista)[*count].pCOUNT = read_valid_number("Número de páginas:\n", 1, 100000);
+    (*lista)[*count].data.dia = read_valid_number("Dia da Publicação:\n", 1, 31);
+    (*lista)[*count].data.mes = read_valid_number("Mês da Publicação:\n", 1, 12);
+    (*lista)[*count].data.ano = read_valid_number("Ano da Publicação:\n", 500, 2025); 
+    // printf("\nNúmero de Páginas:\n");
+    // scanf("%d", &(*lista)[*count].pCOUNT);
+    // printf("\nDia da Publicação:\n");
+    // scanf("%d", &(*lista)[*count].data.dia);
+    // printf("\nMês da Publicação:\n");
+    // scanf("%d", &(*lista)[*count].data.mes);
+    // printf("\nAno da Publicação:\n");
+    // scanf("%d", &(*lista)[*count].data.ano);
 
     FILE *file = fopen("livros.txt", "w"); //CRIA OU ABRE O ARQUIVO LIVROS.TXT EM MODO DE ESCRITA
     if (file == NULL){
