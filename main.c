@@ -377,7 +377,7 @@ int main () {
                 break;
             case 5: //SAIR
                 free(plivraria);
-                printf("PROGRAMA ENCERRADO! /n");
+                printf("PROGRAMA ENCERRADO! \n");
                 menu = 0; //INVALIDA A CHECAGEM DO LOOP
                 break;
         }
