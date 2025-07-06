@@ -1,5 +1,5 @@
 //podemos começar o trabalho!
-//GRUPO: JOÃO PEDRO DA SILVA, MARIAH GARCIA, MARIA EDUARDA GEROTTI
+//GRUPO: JOÃO PEDRO DA SILVA, MARIA EDUARDA GEROTTI, MARIAH GARCIA
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -69,7 +69,7 @@ void read_file(book **lista, int *count){ //lÊ E CARREGA OS REGISTROS DO ARQUIV
 
 void insert_register(book **lista, int *count){
     int i; int j; int k; int MOVE;
-    char bufferC1[30] = {0}; char bufferC2[30];
+    char bufferC1[30] = {0};//MUDEI //char bufferC2[30];
     char bufferT[30] = {0}; //VARIÁVEL TEMPORÁRIA PARA O TÍTULO
     printf("\nTítulo:\n"); //RECEBE DADOS DO USUÁRIO SOBRE O LIVRO
     scanf(" %[^\n]", bufferT);
@@ -152,7 +152,9 @@ void insert_register(book **lista, int *count){
 
 void delete_register(book **lista, int *count){ //REMOVE UM REGISTRO DA LISTA
     char removed[30];
-    int i; int j; int k;
+    int i; int k;
+    //MUDEI
+    //int i; int j; int k;
     int check = 1;
     printf("\nInsira o título a ser removido do registro:\n");
     scanf(" %[^\n]", removed);
@@ -280,7 +282,8 @@ void list_books(book **lista, int *count){
     int list;
     if(*count == 0){
         printf("\nNÃO HÁ LIVROS REGISTRADOS!\n");
-        break;
+        //break;
+        return;
     }
     printf("\n  ---------------------------------\n");
     printf("  |Olá! Digite a opção que deseja|\n\n");
@@ -288,14 +291,23 @@ void list_books(book **lista, int *count){
     printf("  -> 2 - Carregar listagem em documento de texto.\n");
     printf("  ---------------------------------\n");
     scanf(" %d", &list);
-    switch (list){
+     switch (list){
         case 1:
-            print_list(&plivraria, &counter);
+            print_list(lista, count);
             break;
         case 2:
-            load_list(&plivraria, &counter);
+            load_list(lista, count);
             break;
     }
+    //MUDEI
+    //switch (list){
+    //    case 1:
+    //        print_list(&plivraria, &counter);
+    //        break;
+    //    case 2:
+    //        load_list(&plivraria, &counter);
+    //        break;
+    //}
 }
 
 int main () {
@@ -332,7 +344,9 @@ int main () {
                 delete_register(&plivraria, &counter);
                 break;
             case 3: //LISTAR
-                list_book(&plivraria, &counter);
+                list_books(&plivraria, &counter);
+                //MUDEI
+                //list_book(&plivraria, &counter);
                 break;
             case 4: //CONSULTAR
                 show_single(&plivraria, &counter);
