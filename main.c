@@ -89,7 +89,7 @@ void read_file(book **lista, int *count){ //lÊ E CARREGA OS REGISTROS DO ARQUIV
 
 void insert_register(book **lista, int *count){
     int i; int j; int k; int MOVE;
-    char bufferC1[30] = {0};//MUDEI //char bufferC2[30];
+    char bufferC1[30] = {0};
     char bufferT[30] = {0}; //VARIÁVEL TEMPORÁRIA PARA O TÍTULO
     printf("\nTítulo:\n"); //RECEBE DADOS DO USUÁRIO SOBRE O LIVRO
     scanf(" %[^\n]", bufferT);
@@ -127,14 +127,6 @@ void insert_register(book **lista, int *count){
     (*lista)[*count].data.dia = read_valid_number("Dia da Publicação:\n", 1, 31);
     (*lista)[*count].data.mes = read_valid_number("Mês da Publicação:\n", 1, 12);
     (*lista)[*count].data.ano = read_valid_number("Ano da Publicação:\n", 500, 2025); 
-    // printf("\nNúmero de Páginas:\n");
-    // scanf("%d", &(*lista)[*count].pCOUNT);
-    // printf("\nDia da Publicação:\n");
-    // scanf("%d", &(*lista)[*count].data.dia);
-    // printf("\nMês da Publicação:\n");
-    // scanf("%d", &(*lista)[*count].data.mes);
-    // printf("\nAno da Publicação:\n");
-    // scanf("%d", &(*lista)[*count].data.ano);
 
     FILE *file = fopen("livros.txt", "w"); //CRIA OU ABRE O ARQUIVO LIVROS.TXT EM MODO DE ESCRITA
     if (file == NULL){
@@ -177,8 +169,6 @@ void insert_register(book **lista, int *count){
 void delete_register(book **lista, int *count){ //REMOVE UM REGISTRO DA LISTA
     char removed[30];
     int i; int k;
-    //MUDEI
-    //int i; int j; int k;
     int check = 1;
     printf("\nInsira o título a ser removido do registro:\n");
     scanf(" %[^\n]", removed);
@@ -323,15 +313,6 @@ void list_books(book **lista, int *count){
             load_list(lista, count);
             break;
     }
-    //MUDEI
-    //switch (list){
-    //    case 1:
-    //        print_list(&plivraria, &counter);
-    //        break;
-    //    case 2:
-    //        load_list(&plivraria, &counter);
-    //        break;
-    //}
 }
 
 int main () {
@@ -369,8 +350,6 @@ int main () {
                 break;
             case 3: //LISTAR
                 list_books(&plivraria, &counter);
-                //MUDEI
-                //list_book(&plivraria, &counter);
                 break;
             case 4: //CONSULTAR
                 show_single(&plivraria, &counter);
